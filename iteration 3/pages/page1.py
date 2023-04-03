@@ -409,7 +409,6 @@ with st.expander("Housing questions."):
 
 
     #Cosine
-
     # The desired house 
     desired_house_data = { 'area': [a], 'bedrooms': [b], 'property_type': [d], 'rooms': [e], 'year_built': [f]}
     desired_house = pd.DataFrame(desired_house_data)
@@ -425,21 +424,15 @@ with st.expander("Housing questions."):
     normalized_desired_house = normalized_df.iloc[-1] 
     normalized_df = normalized_df.iloc[:-1]
 
-
     similarity_scores = cosine_similarity(normalized_df, normalized_desired_house.to_numpy().reshape(1, -1))
 
+    # Derive top 3 houses
     top_n = 3
-
     similarity_scores_1d = similarity_scores.flatten() 
-
     top_n_indices = np.argpartition(similarity_scores_1d, -top_n)[-top_n:] 
-
     top_n_indices_sorted = top_n_indices[np.argsort(-similarity_scores_1d[top_n_indices])]
-
-
     top_n_recommended_houses = df_cosine.iloc[top_n_indices_sorted]
 
-    
     topThreeHousesCosine = top_n_recommended_houses.index[:3].tolist()
 
     selected_rowsCosine = dfOriginal.loc[topThreeHousesCosine]
